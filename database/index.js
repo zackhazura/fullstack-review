@@ -3,6 +3,13 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
+  git_id: Number,
+  owner: String,
+  git_name: String,
+  url: String,
+  desc: String,
+  stargazers: Number
+  forks: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);

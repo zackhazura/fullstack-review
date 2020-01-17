@@ -3,11 +3,12 @@ let app = express();
 
 // initialize and connect database
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test', {useNewURLParser: true});
+mongoose.connect('mongodb://localhost/fetcher', {useNewURLParser: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', () => {
+  console.log('connected to db!')
   // we're connected!
 });
 
