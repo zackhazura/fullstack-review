@@ -1,6 +1,16 @@
 const express = require('express');
 let app = express();
 
+// initialize and connect database
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test', {useNewURLParser: true});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error: '));
+db.once('open', () => {
+  // we're connected!
+});
+
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
