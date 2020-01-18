@@ -17,11 +17,9 @@ let getReposByUsername = (username, callback) => {
 
   request.get(options, (error, response, body) => {
     if (error) {
-      console.log(error);
-      callback(error);
+      callback(error, null);
     } else {
-      console.log(response);
-      callback(response);
+      callback(null, response, body);
     }
   });
 }
