@@ -35,9 +35,16 @@ let save = (gitData) => {
         stargazers: gitData.stargazers_count,
         forks: gitData.forks_count
       });
-      repoData.save();
+      repoData.save((err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(data)
+        }
+      });
     }
   });
 }
 
 module.exports.save = save;
+module.exports.Repo = Repo;

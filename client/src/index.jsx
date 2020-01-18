@@ -10,7 +10,6 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
   }
 
   search (term) {
@@ -27,6 +26,17 @@ class App extends React.Component {
         console.log(error);
       }
     });
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:1128/repos')
+      .then((repos) => repos.json())
+      .then((repos) => {
+        this.setState({
+          repos: repos
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   render () {

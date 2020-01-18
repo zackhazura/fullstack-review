@@ -41,6 +41,15 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  database.Repo.find({}, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      console.log(data);
+      res.send(data);
+    }
+  }).sort({stargazers: -1}).limit(25);
+
 });
 
 let port = 1128;
