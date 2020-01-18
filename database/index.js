@@ -15,16 +15,17 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (gitData) => {
+let save = (gitData, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
 
   Repo.findOne({git_id: gitData.id}, (err, data) => {
     if (err) {
-      console.log(error);
+      callback(err, null);
     } else if (data) {
       console.log('This repo has already been added!');
+      callback(err, null);
     } else {
       var repoData = new Repo({
         git_id: gitData.id,
@@ -37,9 +38,9 @@ let save = (gitData) => {
       });
       repoData.save((err, data) => {
         if (err) {
-          console.log(err);
+          callback(err, null);
         } else {
-          console.log(data)
+          callback(null, data);
         }
       });
     }

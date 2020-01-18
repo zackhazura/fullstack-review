@@ -19,8 +19,10 @@ class App extends React.Component {
       url: '/repos',
       method: 'POST',
       data: {username: term},
-      success: (data) => {
-        console.log(data);
+      success: (repos) => {
+        this.setState({
+          repos: repos
+        })
       },
       error: (err) => {
         console.log(error);
@@ -42,8 +44,8 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }

@@ -30,10 +30,27 @@ app.post('/repos', function (req, res) {
     } else {
       console.log('Successful GET from GitHub API');
       var repos = JSON.parse(body);
+      var insertionCount = 0;
+      var reposCount = repos.length;
       repos.forEach(repoData => {
-        database.save(repoData);
+        database.save(repoData, (err, data) => {
+          if (err) {
+            console.log(err);
+            res.status(201).send(err);
+          } else {
+            insertionCount++;
+            if (insertionCount === reposCount) {
+              database.Repo.find({}, (err, data) => {
+                if (err) {
+                  res.status(400).send(err);
+                } else {
+                  res.status(201).send(data);
+                }
+              }).sort({stargazers: -1}).limit(25);
+            }
+          }
+        });
       })
-      res.status(201).send(data);
     }
   })
 });
@@ -45,7 +62,6 @@ app.get('/repos', function (req, res) {
     if (err) {
       res.status(400).send(err);
     } else {
-      console.log(data);
       res.send(data);
     }
   }).sort({stargazers: -1}).limit(25);
