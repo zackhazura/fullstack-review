@@ -20,17 +20,24 @@ let save = (gitData) => {
   // This function should save a repo or repos to
   // the MongoDB
 
-  var repoData = new Repo({
-    git_id: gitData.id,
-    owner: gitData.owner.login,
-    git_name: gitData.name,
-    url: gitData.html_url,
-    desc: gitData.description,
-    stargazers: gitData.stargazers_count,
-    forks: gitData.forks_count
+  Repo.findOne({git_id: gitData.id}, (err, data) => {
+    if (err) {
+      console.log(error);
+    } else if (data) {
+      console.log('This repo has already been added!');
+    } else {
+      var repoData = new Repo({
+        git_id: gitData.id,
+        owner: gitData.owner.login,
+        git_name: gitData.name,
+        url: gitData.html_url,
+        desc: gitData.description,
+        stargazers: gitData.stargazers_count,
+        forks: gitData.forks_count
+      });
+      repoData.save();
+    }
   });
-
-  repoData.save();
 }
 
 module.exports.save = save;
